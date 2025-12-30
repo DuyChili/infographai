@@ -1,12 +1,12 @@
 version: '3.8'
 
 services:
-  frontend-license-key:
+  infographai:
     build:
       context: .
       dockerfile: Dockerfile
       # Truyền biến vào lúc build (Quan trọng cho Vite)
-    container_name: InfographAI
+    container_name: infographai
     restart: always
     ports:
       - "3000:8080"  # Map cổng 8080 trong container ra cổng 3005 của server
