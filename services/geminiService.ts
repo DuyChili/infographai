@@ -17,14 +17,40 @@ export const ensureApiKey = async (): Promise<boolean> => {
   return true;
 };
 
+declare global {
+  interface Window {
+    env: {
+      VITE_API_KEY: string;
+    };
+  }
+}
+
 export const generateInfographic = async (
   request: GenerationRequest,
   style: InfographicStyle
 ): Promise<string> => {
   // Always create a new instance right before making an API call to ensure 
   // it uses the most up-to-date API key from the dialog.
-  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY || '' });
+  const cloudKey = window.env?.VITE_API_KEY;
+  const localKey = import.meta.env.VITE_API_KEY;
   
+  // Logic chọn key: Nếu cloudKey có giá trị (và không phải placeholder) thì dùng, ngược lại dùng localKey
+  let apiKey = cloudKey;
+  
+  // Kiểm tra kỹ hơn để tránh lấy phải chuỗi "KEY_HOLDER" hoặc rỗng
+  if (!apiKey || apiKey === "KEY_HOLDER" || apiKey.trim() === "") {
+     apiKey = localKey;
+     console.log("Using LOCAL API Key");
+  } else {
+     console.log("Using CLOUD RUN API Key");
+  }
+
+  if (!apiKey) {
+      console.error("CRITICAL: API Key is missing everywhere!");
+      throw new Error("API Key not found. Please check .env file (Local) or Cloud Run Variables.");
+  }
+
+  const ai = new GoogleGenAI({ apiKey: apiKey });
   const modelId = 'gemini-3-pro-image-preview';
   
   const parts: Part[] = [];
