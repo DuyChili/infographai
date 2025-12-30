@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { Wand2, AlertTriangle, Download, RefreshCw, Zap, Languages, MessageSquarePlus, Image as ImageIcon, Upload, X, Palette, Scroll } from 'lucide-react';
+// 1. Thêm 'Library' vào imports
+import { Wand2, AlertTriangle, Download, RefreshCw, Zap, Languages, MessageSquarePlus, Image as ImageIcon, Upload, X, Palette, Scroll, Library } from 'lucide-react';
 import { INFOGRAPHIC_STYLES } from './constants';
 import { InputType, GenerationRequest, Language } from './types';
 import InputSection from './components/InputSection';
@@ -168,22 +168,33 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-giay-diep text-stone-900 pb-20 font-serif">
+    // 2. Thay class font-serif bằng font-merriweather (được định nghĩa bên dưới)
+    <div className="min-h-screen bg-giay-diep text-stone-900 pb-20 font-merriweather">
+      {/* Inject Google Font Merriweather for Vietnamese support */}
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+          .font-merriweather {
+            font-family: 'Merriweather', serif;
+          }
+        `}
+      </style>
+
       {/* Woodblock Header */}
       <header className="border-b-4 border-double border-red-800 bg-[#fefcf8] sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-red-800 p-2 rounded-lg woodblock-shadow">
-              <Scroll size={24} className="text-[#fdfbf7]" />
-            </div>
-            <div>
-              <h1 className="font-bold text-2xl text-red-900 tracking-tight leading-none">InfographAI</h1>
-              <span className="text-stone-500 text-xs font-serif italic">Đông Hồ Edition • Powered by Gemini 3</span>
+            {/* 3. Thay đổi Logo section thành Icon Library */}
+            {/* <div className="bg-red-800 p-2 rounded-lg shadow-md border-2 border-red-900">
+              <Library size={28} className="text-[#fdfbf7]" />
+            </div> */}
+            <div className="flex flex-col">
+              <img src="/assets/images/EONSR Logo ngang-01-màu chuẩn.png" alt="InfographAI" className="h-10 object-contain" />
             </div>
           </div>
           <div className="hidden sm:block">
             <div className="px-3 py-1 border border-stone-300 rounded-full bg-white text-xs font-bold text-stone-400 uppercase tracking-widest">
-              Folk Art Generator
+              Đông Hồ Edition
             </div>
           </div>
         </div>
@@ -257,7 +268,7 @@ const App: React.FC = () => {
               </div>
               
               <div className="flex-1 text-center sm:text-left">
-                <h4 className="font-bold text-xl text-stone-800 font-serif">Embed your Seal</h4>
+                <h4 className="font-bold text-xl text-stone-800 font-merriweather">Embed your Seal</h4>
                 <p className="text-stone-600 mt-2 max-w-md italic">
                   Upload a transparent PNG. The artisan will place this mark upon the final work.
                 </p>
@@ -305,7 +316,7 @@ const App: React.FC = () => {
                     value={instructions}
                     onChange={(e) => setInstructions(e.target.value)}
                     placeholder="Specific requests for the woodblock carver (e.g., 'Make the mountains taller', 'Use more red ink')..."
-                    className="w-full h-24 bg-transparent border-none p-2 text-stone-800 focus:ring-0 resize-none placeholder:text-stone-400 font-serif text-lg leading-relaxed"
+                    className="w-full h-24 bg-transparent border-none p-2 text-stone-800 focus:ring-0 resize-none placeholder:text-stone-400 font-merriweather text-lg leading-relaxed"
                     style={{ backgroundImage: 'linear-gradient(transparent 95%, #e5e5e5 95%)', backgroundSize: '100% 2rem', lineHeight: '2rem' }}
                     />
                 </div>
@@ -350,7 +361,7 @@ const App: React.FC = () => {
                 key={lang}
                 onClick={() => setLanguage(lang)}
                 className={`
-                  flex items-center gap-3 px-8 py-4 rounded-lg border-2 transition-all duration-200 font-serif font-bold text-lg
+                  flex items-center gap-3 px-8 py-4 rounded-lg border-2 transition-all duration-200 font-merriweather font-bold text-lg
                   ${language === lang 
                     ? 'bg-red-800 border-red-900 text-[#fdfbf7] woodblock-shadow' 
                     : 'bg-white border-stone-300 text-stone-500 hover:border-stone-500 hover:bg-stone-50'
@@ -367,7 +378,7 @@ const App: React.FC = () => {
         {/* Generation Action */}
         <section className="flex flex-col items-center gap-8 pt-8 border-t-2 border-dashed border-stone-300">
            {error && (
-            <div className="bg-red-50 border-l-4 border-red-600 text-red-800 px-6 py-4 rounded shadow-sm flex items-center gap-3 w-full max-w-xl justify-center font-serif">
+            <div className="bg-red-50 border-l-4 border-red-600 text-red-800 px-6 py-4 rounded shadow-sm flex items-center gap-3 w-full max-w-xl justify-center font-merriweather">
               <AlertTriangle size={24} />
               <span className="font-bold">{error}</span>
             </div>
@@ -409,7 +420,7 @@ const App: React.FC = () => {
                   <div className="w-10 h-10 rounded-full bg-green-700 text-white flex items-center justify-center border-2 border-green-900">
                     <Palette size={20} />
                   </div>
-                  <h2 className="text-3xl font-bold text-stone-900 font-serif">The Final Print</h2>
+                  <h2 className="text-3xl font-bold text-stone-900 font-merriweather">The Final Print</h2>
                 </div>
                 <div className="flex gap-2">
                   <button 
