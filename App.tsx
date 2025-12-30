@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Wand2, AlertTriangle, Download, RefreshCw, Zap, Languages, MessageSquarePlus, Image as ImageIcon, Upload, X, Palette, Scroll, Library, LogOut } from 'lucide-react'; // Thêm LogOut icon
+import { Wand2, AlertTriangle, Download, RefreshCw, Zap, Languages, MessageSquarePlus, Image as ImageIcon, Upload, X, Palette, Scroll, Library, LogOut } from 'lucide-react';
 import { INFOGRAPHIC_STYLES } from './constants';
 import { InputType, GenerationRequest, Language } from './types';
 import InputSection from './components/InputSection';
@@ -9,7 +9,6 @@ import { ensureApiKey, generateInfographic } from './services/geminiService';
 import  logos  from './assets/images/logo_header.png';
 
 const App: React.FC = () => {
-  // --- THAY ĐỔI 1: Khởi tạo state dựa trên localStorage ---
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     const savedAuth = localStorage.getItem('isAuthenticated');
     return savedAuth === 'true';
@@ -64,13 +63,11 @@ const App: React.FC = () => {
     }
   }, [logoFile]);
 
-  // --- THAY ĐỔI 2: Hàm xử lý Login ---
   const handleLoginSuccess = () => {
     localStorage.setItem('isAuthenticated', 'true');
     setIsAuthenticated(true);
   };
 
-  // --- THAY ĐỔI 3: Hàm xử lý Logout (Để bạn có thể thoát ra) ---
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
     setIsAuthenticated(false);
@@ -181,22 +178,13 @@ const App: React.FC = () => {
   }, [resultImage]);
 
   if (!isAuthenticated) {
-    // Truyền hàm handleLoginSuccess mới vào đây
     return <LoginScreen onLogin={handleLoginSuccess} />;
   }
 
   return (
+    // Sử dụng font-merriweather đã được config trong Tailwind/index.html
     <div className="min-h-screen bg-giay-diep text-stone-900 pb-20 font-merriweather">
-      {/* Inject Google Font Merriweather for Vietnamese support */}
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
-          .font-merriweather {
-            font-family: 'Merriweather', serif;
-          }
-        `}
-      </style>
-
+      
       {/* Woodblock Header */}
       <header className="border-b-4 border-double border-red-800 bg-[#fefcf8] sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -212,7 +200,7 @@ const App: React.FC = () => {
               </div>
             </div>
             
-            {/* Nút Đăng xuất mới */}
+            {/* Nút Đăng xuất */}
             <button 
               onClick={handleLogout}
               className="p-2 text-stone-500 hover:text-red-800 transition-colors"
@@ -284,7 +272,7 @@ const App: React.FC = () => {
                 ) : (
                   <>
                     <div className="bg-stone-100 p-3 rounded-full mb-2">
-                        <Upload className="text-stone-500" size={20} />
+                       <Upload className="text-stone-500" size={20} />
                     </div>
                     <span className="text-xs uppercase font-bold text-stone-500">Add Seal</span>
                   </>

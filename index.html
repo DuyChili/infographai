@@ -1,22 +1,47 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>InfographAI - Tranh Đông Hồ Edition</title>
     <link rel="icon" type="image/png" href="/assets/images/eonsr_logo.png" />
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              // Đặt Merriweather làm font serif mặc định
+              serif: ['Merriweather', 'serif'],
+              // Đặt tên class riêng nếu muốn dùng cụ thể
+              merriweather: ['Merriweather', 'serif'],
+            },
+            colors: {
+              'giay-diep': '#fdfbf7', 
+            }
+          }
+        }
+      }
+    </script>
+
     <style>
+      /* Áp dụng font Merriweather cho toàn trang */
       body {
-        font-family: 'Lora', serif;
+        font-family: 'Merriweather', serif;
         background-color: #fdfbf7; /* Cream/Shell paper base */
         color: #1c1917; /* Stone 900 - Ink Black */
       }
       
+      /* Các thẻ heading cũng dùng Merriweather nhưng đậm hơn */
       h1, h2, h3, h4, h5, h6 {
-        font-family: 'Playfair Display', serif;
+        font-family: 'Merriweather', serif;
+        font-weight: 900; /* Dùng nét đậm nhất cho tiêu đề giống kiểu khắc gỗ */
       }
 
       /* Giấy Điệp Texture Simulation */
@@ -33,7 +58,7 @@
         border: 2px solid #1c1917;
       }
 
-      /* Custom scrollbar to match the rustic feel */
+      /* Custom scrollbar */
       ::-webkit-scrollbar {
         width: 10px;
       }
