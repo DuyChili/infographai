@@ -7,6 +7,7 @@ import InputSection from './components/InputSection';
 import StyleCard from './components/StyleCard';
 import LoginScreen from './components/LoginScreen';
 import { ensureApiKey, generateInfographic } from './services/geminiService';
+import  logos  from './assets/images/logo_header.png';
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -189,7 +190,7 @@ const App: React.FC = () => {
               <Library size={28} className="text-[#fdfbf7]" />
             </div> */}
             <div className="flex flex-col">
-              <img src="/assets/images/EONSR Logo ngang-01-màu chuẩn.png" alt="InfographAI" className="h-10 object-contain" />
+              <img src={logos} alt="InfographAI" className="h-10 object-contain" />
             </div>
           </div>
           <div className="hidden sm:block">
