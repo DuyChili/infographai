@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Lock, User, ArrowRight, Flower2 } from 'lucide-react';
+import logo_icon_header from '/assets/images/eonsr_logo.png';
 
 interface LoginScreenProps {
   onLogin: () => void;
@@ -31,8 +32,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       <div className="bg-[#b91c1c] p-1 rounded-2xl shadow-2xl w-full max-w-md relative z-10 woodblock-shadow">
         <div className="bg-[#fdfbf7] border-2 border-[#5c1914] p-8 rounded-xl bg-giay-diep">
           <div className="text-center mb-8">
-            <div className="w-20 h-20 mx-auto mb-4 border-2 border-red-700 rounded-full flex items-center justify-center bg-red-50">
-               <Flower2 size={40} className="text-red-700" />
+            <div className="w-20 h-20 mx-auto p-2 mb-4 rounded-full flex items-center justify-center overflow-hidden">
+              <img
+                src={logo_icon_header}
+                alt="Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <h1 className="text-4xl font-black text-red-800 mb-2 font-serif tracking-tight">InfographAI</h1>
             <p className="text-stone-600 italic font-serif">Enter the Artist's Workshop</p>
