@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-// 1. Thêm 'Library' vào imports
-import { Wand2, AlertTriangle, Download, RefreshCw, Zap, Languages, MessageSquarePlus, Image as ImageIcon, Upload, X, Palette, Scroll, Library } from 'lucide-react';
+import { Wand2, AlertTriangle, Download, RefreshCw, Zap, Languages, MessageSquarePlus, Image as ImageIcon, Upload, X, Palette, Scroll, Library, LogOut } from 'lucide-react'; // Thêm LogOut icon
 import { INFOGRAPHIC_STYLES } from './constants';
 import { InputType, GenerationRequest, Language } from './types';
 import InputSection from './components/InputSection';
@@ -10,7 +9,12 @@ import { ensureApiKey, generateInfographic } from './services/geminiService';
 import  logos  from './assets/images/logo_header.png';
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // --- THAY ĐỔI 1: Khởi tạo state dựa trên localStorage ---
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    const savedAuth = localStorage.getItem('isAuthenticated');
+    return savedAuth === 'true';
+  });
+
   const [inputType, setInputType] = useState<InputType>(InputType.TEXT);
   const [language, setLanguage] = useState<Language>(Language.EN);
   
@@ -60,9 +64,21 @@ const App: React.FC = () => {
     }
   }, [logoFile]);
 
+  // --- THAY ĐỔI 2: Hàm xử lý Login ---
+  const handleLoginSuccess = () => {
+    localStorage.setItem('isAuthenticated', 'true');
+    setIsAuthenticated(true);
+  };
+
+  // --- THAY ĐỔI 3: Hàm xử lý Logout (Để bạn có thể thoát ra) ---
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    setIsAuthenticated(false);
+  };
+
   const handleInputTypeChange = (type: InputType) => {
     setInputType(type);
-    setFile(null); // Clear file when switching types
+    setFile(null); 
     setResultImage(null);
     setError(null);
   };
@@ -165,11 +181,11 @@ const App: React.FC = () => {
   }, [resultImage]);
 
   if (!isAuthenticated) {
-    return <LoginScreen onLogin={() => setIsAuthenticated(true)} />;
+    // Truyền hàm handleLoginSuccess mới vào đây
+    return <LoginScreen onLogin={handleLoginSuccess} />;
   }
 
   return (
-    // 2. Thay class font-serif bằng font-merriweather (được định nghĩa bên dưới)
     <div className="min-h-screen bg-giay-diep text-stone-900 pb-20 font-merriweather">
       {/* Inject Google Font Merriweather for Vietnamese support */}
       <style>
@@ -185,18 +201,25 @@ const App: React.FC = () => {
       <header className="border-b-4 border-double border-red-800 bg-[#fefcf8] sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {/* 3. Thay đổi Logo section thành Icon Library */}
-            {/* <div className="bg-red-800 p-2 rounded-lg shadow-md border-2 border-red-900">
-              <Library size={28} className="text-[#fdfbf7]" />
-            </div> */}
             <div className="flex flex-col">
               <img src={logos} alt="InfographAI" className="h-10 object-contain" />
             </div>
           </div>
-          <div className="hidden sm:block">
-            <div className="px-3 py-1 border border-stone-300 rounded-full bg-white text-xs font-bold text-stone-400 uppercase tracking-widest">
-              Đông Hồ Edition
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:block">
+              <div className="px-3 py-1 border border-stone-300 rounded-full bg-white text-xs font-bold text-stone-400 uppercase tracking-widest">
+                Đông Hồ Edition
+              </div>
             </div>
+            
+            {/* Nút Đăng xuất mới */}
+            <button 
+              onClick={handleLogout}
+              className="p-2 text-stone-500 hover:text-red-800 transition-colors"
+              title="Logout"
+            >
+              <LogOut size={20} />
+            </button>
           </div>
         </div>
       </header>
@@ -261,7 +284,7 @@ const App: React.FC = () => {
                 ) : (
                   <>
                     <div className="bg-stone-100 p-3 rounded-full mb-2">
-                       <Upload className="text-stone-500" size={20} />
+                        <Upload className="text-stone-500" size={20} />
                     </div>
                     <span className="text-xs uppercase font-bold text-stone-500">Add Seal</span>
                   </>
