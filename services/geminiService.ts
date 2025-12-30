@@ -1,4 +1,4 @@
-
+///<reference types="vite/client" />
 import { GoogleGenAI, Part } from "@google/genai";
 import { GenerationRequest, InputType, InfographicStyle, Language } from '../types';
 
@@ -23,7 +23,7 @@ export const generateInfographic = async (
 ): Promise<string> => {
   // Always create a new instance right before making an API call to ensure 
   // it uses the most up-to-date API key from the dialog.
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY || '' });
   
   const modelId = 'gemini-3-pro-image-preview';
   
